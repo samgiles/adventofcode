@@ -2,8 +2,9 @@ use std::collections::BinaryHeap;
 use std::io::{self, BufRead, BufReader};
 use std::path::Path;
 
-
-pub fn read_input_as_list_of_sorted_integers<P: AsRef<Path>>(path: P) -> Result<Vec<i64>, anyhow::Error> {
+pub fn read_input_as_list_of_sorted_integers<P: AsRef<Path>>(
+    path: P,
+) -> Result<Vec<i64>, anyhow::Error> {
     // We can use a heap to efficiently build a sorted list as we read
 
     let file = std::fs::File::open(path)?;

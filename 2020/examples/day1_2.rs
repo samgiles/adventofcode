@@ -2,7 +2,7 @@ use adventofcode::*;
 use std::io;
 
 pub fn main() -> Result<(), anyhow::Error> {
-    let mut numbers = read_input_as_list_of_sorted_integers("input/day1_1.input")?;
+    let numbers = read_input_as_list_of_sorted_integers("input/day1_1.input")?;
 
     println!("{:?}", numbers);
 
@@ -17,8 +17,14 @@ pub fn main() -> Result<(), anyhow::Error> {
             let sum = numbers[i] + numbers[left_index] + numbers[right_index];
 
             if sum == 2020 {
-                println!("{}, {}, {}", numbers[i], numbers[left_index], numbers[right_index]);
-                println!("Solution: {}", numbers[i] * numbers[left_index] * numbers[right_index]);
+                println!(
+                    "{}, {}, {}",
+                    numbers[i], numbers[left_index], numbers[right_index]
+                );
+                println!(
+                    "Solution: {}",
+                    numbers[i] * numbers[left_index] * numbers[right_index]
+                );
                 return Ok(());
             }
 
@@ -34,4 +40,3 @@ pub fn main() -> Result<(), anyhow::Error> {
 
     Ok(())
 }
-

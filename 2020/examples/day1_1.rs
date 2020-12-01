@@ -2,9 +2,7 @@ use adventofcode::*;
 use std::io;
 
 pub fn main() -> Result<(), anyhow::Error> {
-    let mut numbers = read_input_as_list_of_sorted_integers("input/day1_1.input")?;
-
-    println!("{:?}", numbers);
+    let numbers = read_input_as_list_of_sorted_integers("input/day1_1.input")?;
 
     let mut right_index = numbers.len() - 1;
     let mut left_index = 0;
