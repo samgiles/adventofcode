@@ -1,5 +1,4 @@
 use adventofcode::*;
-use std::io;
 
 pub fn main() -> Result<(), anyhow::Error> {
     let numbers = read_input_as_list_of_sorted_integers("input/day1_1.input")?;
