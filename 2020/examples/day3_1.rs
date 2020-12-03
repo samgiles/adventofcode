@@ -8,10 +8,9 @@ pub fn main() -> Result<(), anyhow::Error> {
     let mut trees_encountered = 0;
 
     while position_y < ski_slope.height {
-        match ski_slope.get_position_wrapping(position_x, position_y) {
-            SkiSlopeSpace::Tree => trees_encountered += 1,
-            _ => {}
-        };
+        if let SkiSlopeSpace::Tree = ski_slope.get_position_wrapping(position_x, position_y) {
+            trees_encountered += 1;
+        }
         position_x += 3;
         position_y += 1;
     }
