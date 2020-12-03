@@ -60,3 +60,58 @@ fn parse_range(range: &str) -> (i64, i64) {
 
     (from.parse::<i64>().unwrap(), to.parse::<i64>().unwrap())
 }
+
+pub fn read_ski_slope_map<P: AsRef<Path>>(path: P) -> SkiSlope {
+    let file = std::fs::File::open(path).unwrap();
+    let reader = BufReader::new(file);
+
+    let mut map = Vec::new();
+    for line in reader.lines() {
+        let line = line.unwrap();
+        let mut row = Vec::new();
+        for character in line.as_bytes() {
+            let character = *character as char;
+
+            let space = match character {
+                '.' => SkiSlopeSpace::Free,
+                '#' => SkiSlopeSpace::Tree,
+                _ => panic!("unknown space: {:?}", character),
+            };
+
+            row.push(space);
+        }
+        map.push(row);
+    }
+
+    SkiSlope::new(map)
+}
+
+pub enum SkiSlopeSpace {
+    Free,
+    Tree,
+}
+
+pub struct SkiSlope {
+    map: Vec<Vec<SkiSlopeSpace>>,
+    pub width: usize,
+    pub height: usize,
+}
+
+impl SkiSlope {
+    pub fn new(map: Vec<Vec<SkiSlopeSpace>>) -> Self {
+        let height = map.len();
+        let width = map.get(0).unwrap().len();
+        SkiSlope { map, height, width }
+    }
+
+    pub fn get_position(&self, x: usize, y: usize) -> &SkiSlopeSpace {
+        let row = self.map.get(y).unwrap();
+        row.get(x).unwrap()
+    }
+
+    pub fn get_position_wrapping(&self, x: usize, y: usize) -> &SkiSlopeSpace {
+        let pos_x = x % self.width;
+        // Only wrap the X axis
+        self.get_position(pos_x, y)
+    }
+}
