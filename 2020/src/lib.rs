@@ -1,4 +1,4 @@
-use std::collections::BinaryHeap;
+use std::collections::{BinaryHeap, HashMap};
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 
@@ -114,4 +114,34 @@ impl SkiSlope {
         // Only wrap the X axis
         self.get_position(pos_x, y)
     }
+}
+
+pub fn read_passport_input_fields<P: AsRef<Path>>(path: P) -> Vec<HashMap<String, String>> {
+    let file = std::fs::File::open(path).unwrap();
+    let reader = BufReader::new(file);
+    let mut lines = reader.lines();
+
+    let mut record = HashMap::new();
+    let mut records = Vec::new();
+
+    while let Some(Ok(line)) = lines.next() {
+        if line.len() == 0 {
+            records.push(record);
+            record = HashMap::new();
+            continue;
+        }
+
+        let properties = line.split_whitespace().map(|kv| {
+            let mut kv_iter = kv.split(':');
+            (kv_iter.next().unwrap(), kv_iter.next().unwrap())
+        });
+
+        for (key, value) in properties {
+            record.insert(key.to_string(), value.to_string());
+        }
+    }
+
+    records.push(record);
+
+    records
 }
